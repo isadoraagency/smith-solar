@@ -72,6 +72,8 @@
     <!-- ============ PRELOADER ============
          A panel-shaped outline draws itself as the video loads, then opens as a
          window onto the hero and grows until it fills the screen. -->
+    <!-- Loader disabled. Uncomment this block (and its CSS in style.css) to bring it back;
+         main.js runs the loader automatically when this markup is present.
     <div class="loader" aria-hidden="true">
       <svg class="loader__svg" data-loader-svg>
         <path class="loader__veil" fill-rule="evenodd" data-veil />
@@ -102,6 +104,7 @@
         ><span class="js-load-count">0</span>%</span
       >
     </div>
+    -->
 
     <!-- ============ NAV (fixed) ============ -->
     <header class="nav" data-nav>
@@ -112,7 +115,11 @@
           </svg>
         </a>
         <div class="nav__switch" role="group" aria-label="Division">
-          <a href="https://isadoraagency.github.io/smith-prototype/" class="nav__switch-item">Electronics</a>
+          <a
+            href="https://isadoraagency.github.io/smith-prototype/"
+            class="nav__switch-item"
+            >Electronics</a
+          >
           <a href="#" class="nav__switch-item is-active" aria-current="page">
             <svg
               width="18"
@@ -267,6 +274,13 @@
                 >
                   <use href="#card-tile" />
                 </svg>
+                <img
+                  class="svc-card__img"
+                  src="assets/img/value1.png"
+                  alt=""
+                  loading="lazy"
+                />
+                <!-- Icon kept for later; swapped for a photo
                 <svg
                   class="svc-card__icon"
                   viewBox="0 0 64 64"
@@ -283,6 +297,7 @@
                     <use href="#petal" transform="rotate(315)" />
                   </g>
                 </svg>
+                -->
               </div>
               <div class="svc-card__body">
                 <span class="svc-card__num mono">01</span>
@@ -303,6 +318,13 @@
                 >
                   <use href="#card-tile" />
                 </svg>
+                <img
+                  class="svc-card__img"
+                  src="assets/img/fin.jpg"
+                  alt=""
+                  loading="lazy"
+                />
+                <!-- Icon kept for later; swapped for a photo
                 <svg
                   class="svc-card__icon"
                   viewBox="0 0 64 64"
@@ -331,6 +353,7 @@
                     <use href="#ring" transform="rotate(330)" />
                   </g>
                 </svg>
+                -->
               </div>
               <div class="svc-card__body">
                 <span class="svc-card__num mono">02</span>
@@ -351,12 +374,18 @@
                 >
                   <use href="#card-tile" />
                 </svg>
+                <img
+                  class="svc-card__img"
+                  src="assets/img/inverter.png"
+                  alt=""
+                  loading="lazy"
+                />
+                <!-- Icon kept for later; swapped for a photo
                 <svg
                   class="svc-card__icon"
                   viewBox="0 0 64 64"
                   aria-hidden="true"
                 >
-                  <!-- compass rose: guidance -->
                   <g transform="translate(32 32)">
                     <circle
                       r="22"
@@ -387,6 +416,7 @@
                     </g>
                   </g>
                 </svg>
+                -->
               </div>
               <div class="svc-card__body">
                 <span class="svc-card__num mono">03</span>
@@ -407,12 +437,18 @@
                 >
                   <use href="#card-tile" />
                 </svg>
+                <img
+                  class="svc-card__img"
+                  src="assets/img/logistic.jpg"
+                  alt=""
+                  loading="lazy"
+                />
+                <!-- Icon kept for later; swapped for a photo
                 <svg
                   class="svc-card__icon"
                   viewBox="0 0 64 64"
                   aria-hidden="true"
                 >
-                  <!-- distribution hub: routes out to six delivery points -->
                   <g transform="translate(32 32)">
                     <g fill="none" stroke="currentColor" stroke-width="1.3">
                       <circle r="27" stroke-dasharray="1.3 4.35" />
@@ -434,6 +470,7 @@
                     </g>
                   </g>
                 </svg>
+                -->
               </div>
               <div class="svc-card__body">
                 <span class="svc-card__num mono">04</span>
@@ -459,6 +496,7 @@
 
       <!-- ============ 4: SOURCING (yellow, wireframe parallax) ============ -->
       <section class="sourcing" id="sourcing" data-sourcing>
+        <!-- Indent disabled (CSS + JS commented/guarded too)
         <div class="sourcing__notch" aria-hidden="true">
           <svg viewBox="0 0 350 30" data-notch>
             <path
@@ -467,6 +505,7 @@
             />
           </svg>
         </div>
+        -->
         <img
           class="sourcing__wire"
           src="assets/img/wireframe.jpg"
@@ -555,6 +594,7 @@
               data-stats-img
             />
             <div class="stats__tint"></div>
+            <!-- Indent disabled (CSS + JS commented/guarded too)
             <div class="stats__notch" aria-hidden="true" data-stats-notch>
               <svg viewBox="0 0 30 350">
                 <path
@@ -563,6 +603,7 @@
                 />
               </svg>
             </div>
+            -->
             <p class="stats__headline display-md" data-stats-headline>
               Solar expertise backed by four<br class="hide-sm" />
               decades of global distribution.
@@ -780,19 +821,29 @@
         <i class="footer__rule" data-foot-rule></i>
 
         <div class="footer__mid">
-          <span
-            class="logo logo--xl logo--dark"
-            role="img"
-            aria-label="Smith"
-            data-foot-fade
-            ><svg class="logo__svg" viewBox="0 0 94 32" aria-hidden="true">
-              <use href="#smith-logo" /></svg
-          ></span>
-          <address class="footer__hq" data-foot-fade>
-            <strong>World Headquarters</strong>
-            5306 Hollister Street | Houston, TX<br />77040 | 1.800.468.7866<br />
-            <a href="#" class="u-link">Global Locations</a>
-          </address>
+          <div class="footer__brand" data-foot-fade>
+            <span class="logo logo--xl logo--dark" role="img" aria-label="Smith"
+              ><svg class="logo__svg" viewBox="0 0 94 32" aria-hidden="true">
+                <use href="#smith-logo" /></svg
+            ></span>
+            <address class="footer__hq">
+              5306 Hollister Street | Houston, TX 77040 |<br />
+              1.800.468.7866 <span class="footer__sep">|</span>
+              <a href="#" class="u-link">Global Locations</a>
+            </address>
+          </div>
+          <nav class="footer__legal" aria-label="Legal" data-foot-fade>
+            <span class="mono footer__label">Legal</span>
+            <ul>
+              <li>
+                <a href="#">Terms of Use and Privacy &amp; Cookies Policy</a>
+              </li>
+              <li><a href="#">Standards and Commitments</a></li>
+              <li><a href="#">T&amp;C of Sale</a></li>
+              <li><a href="#">Privacy &amp; Cookies Policy</a></li>
+              <li><a href="#">Fraud Protection</a></li>
+            </ul>
+          </nav>
           <div class="footer__social" data-foot-fade>
             <span class="mono footer__label">Social media</span>
             <ul>
@@ -893,10 +944,6 @@
 
         <div class="footer__bottom mono" data-foot-fade>
           <span>© 2026 Smith Solar. A division of Smith.</span>
-          <nav aria-label="Legal">
-            <a href="#">Terms of service</a><a href="#">Accessibility</a
-            ><a href="#">Privacy policy</a>
-          </nav>
           <span>Site by Isadora Agency</span>
         </div>
       </div>

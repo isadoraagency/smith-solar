@@ -35,6 +35,9 @@
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* service-card tile shape (same path as #card-tile), used to mask photos */
+  --tile-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 255' preserveAspectRatio='none'%3E%3Cpath d='M235.938 0C246.618 0.000169049 255.276 8.65839 255.276 19.3389V108.299C255.276 118.196 247.841 126.356 238.251 127.499C247.841 128.642 255.276 136.803 255.276 146.7V235.66C255.276 246.341 246.618 255 235.938 255H146.978C136.297 255 127.638 246.341 127.638 235.66C127.638 246.341 118.98 255 108.299 255H19.3389C8.65828 255 0 246.341 0 235.66V146.7C0.000213281 137.134 6.94703 129.191 16.0713 127.638C6.94692 126.085 0 118.142 0 108.575V19.6152C2.89752e-05 8.93465 8.6583 0.276497 19.3389 0.276367H108.299C118.979 0.276367 127.638 8.93457 127.638 19.6152V19.3389C127.638 8.65828 136.297 0 146.978 0H235.938Z'/%3E%3C/svg%3E");
 }
 
 /* ---------- Reset ---------- */
@@ -222,17 +225,17 @@ ul {
 
 /* ---------- Buttons (label roll on hover) ---------- */
 .btn {
-  --h: 46px;
   --roll: 2.6em;
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: var(--h);
-  padding: 0 26px;
-  border-radius: 9px;
+  padding: 12px 24px; /* one size for every button */
+  border: 1px solid transparent; /* outlined variants colour this, so all heights match */
+  border-radius: 8px;
   font-family: var(--f-mono);
-  font-size: 14px;
+  font-size: 16px;
+  line-height: 1.25;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -254,22 +257,6 @@ ul {
 }
 .btn:active {
   transform: scale(0.98);
-}
-.btn--sm {
-  --h: 36px;
-  padding: 0 18px;
-  font-size: 11px;
-  border-radius: 7px;
-}
-.btn--lg {
-  --h: 50px;
-  padding: 0 36px;
-}
-.btn--xl {
-  --h: 66px;
-  --roll: 3.2em;
-  min-width: 252px;
-  border-radius: 10px;
 }
 .btn--block {
   width: 100%;
@@ -301,7 +288,6 @@ ul {
 .btn--outline-light {
   border: 1px solid rgba(255, 255, 255, 0.9);
   color: var(--white);
-  min-width: 210px;
 }
 .btn--outline-light:hover {
   background: var(--white);
@@ -316,15 +302,12 @@ ul {
   color: var(--yellow);
 }
 
-/* ==========================================================================
-   Preloader — yellow veil with a panel-shaped window. JS draws the shapes into
-   the SVG; the outline draws with load progress, then the window grows.
-   ========================================================================== */
+/* LOADER DISABLED: uncomment together with the loader markup in index.html
 .loader {
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: var(--yellow); /* until JS draws the veil */
+  background: var(--yellow);
   color: var(--ink);
 }
 .loader.is-drawn {
@@ -341,7 +324,6 @@ ul {
 .loader__fill {
   fill: var(--yellow);
 }
-/* faint full outline; the two halves fill it with white from the bottom up */
 .loader__track {
   fill: none;
   stroke: rgba(255, 255, 255, 0.38);
@@ -357,7 +339,6 @@ ul {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
 }
-/* JS pins this to the exact spot of the nav logo */
 .loader__logo {
   position: fixed;
   left: var(--gutter);
@@ -389,6 +370,7 @@ ul {
   font-variant-numeric: tabular-nums;
   text-transform: none;
 }
+*/
 
 /* ==========================================================================
    Nav — fixed; flips to white pills once past the video
@@ -486,9 +468,6 @@ ul {
 }
 .nav__links a:hover {
   background: rgba(255, 255, 255, 0.16);
-}
-.nav__cta {
-  --h: 46px;
 }
 
 /* Light state */
@@ -658,7 +637,6 @@ ul {
 }
 .hero__ctas .btn {
   flex: 1 1 0;
-  padding: 0 20px;
 }
 .hero__scroll {
   position: absolute;
@@ -708,9 +686,6 @@ ul {
 .hero__outro .display-lg {
   margin-bottom: 44px;
 }
-.hero__outro .btn {
-  padding: 0 24px;
-}
 
 .hero__progress {
   position: absolute;
@@ -745,9 +720,9 @@ ul {
   perspective: 1600px;
 }
 .statement__text {
-  max-width: 1010px;
+  max-width: 1250px;
   padding-inline: var(--gutter);
-  text-align: center;
+  text-align: left;
   color: var(--ink-2);
   will-change: opacity, transform;
 }
@@ -764,8 +739,6 @@ ul {
 }
 .statement__btn {
   margin-top: -38px;
-  font-size: 16px;
-  padding: 20px 40px;
 }
 
 .svc-card {
@@ -811,6 +784,16 @@ ul {
   height: 100%;
   color: var(--white);
 }
+/* photo cut to the same four-lobed tile shape */
+.svc-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-mask: var(--tile-mask) center / 100% 100% no-repeat;
+  mask: var(--tile-mask) center / 100% 100% no-repeat;
+}
 .svc-card__icon {
   position: absolute;
   left: 50%;
@@ -832,6 +815,7 @@ ul {
   top: 18px;
   right: 22px;
   font-size: 14px;
+  display: none;
 }
 .svc-card__title {
   font-size: clamp(28px, 2.2vw, 36px);
@@ -872,7 +856,7 @@ ul {
 .sourcing .container {
   position: relative;
 }
-/* Tab-shaped cut-out in the top edge, filled with the section above's colour */
+/* INDENT DISABLED
 .sourcing__notch {
   will-change: transform;
   position: absolute;
@@ -891,6 +875,7 @@ ul {
   overflow: visible;
   transform-origin: 50% 0;
 }
+*/
 .sourcing__title {
   margin-bottom: clamp(56px, 6vw, 86px);
   padding-left: clamp(0px, 1.6vw, 22px);
@@ -933,7 +918,7 @@ ul {
 .compare__body {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: calc(50% - 19px);
   min-height: 100%;
   padding: clamp(28px, 3vw, 44px) clamp(28px, 3.5vw, 50px)
     clamp(30px, 4.5vw, 64px);
@@ -944,7 +929,7 @@ ul {
   top: 0;
   right: 0;
   bottom: 0;
-  width: 48%;
+  width: 46%;
   overflow: hidden;
   clip-path: inset(0 0 0 100%);
 }
@@ -1061,7 +1046,7 @@ ul {
   clip-path: inset(0 calc(var(--cut) * 1%) 0 0);
   will-change: clip-path;
 }
-/* Tab cut-out on the image's right edge; rides along with the squeeze */
+/* INDENT DISABLED
 .stats__notch {
   position: absolute;
   top: 0;
@@ -1073,7 +1058,6 @@ ul {
   color: var(--paper);
   pointer-events: none;
   will-change: transform;
-  z-index: 3;
 }
 .stats__notch svg {
   display: block;
@@ -1082,8 +1066,8 @@ ul {
   overflow: visible;
   transform-origin: 100% 50%;
   transform: scaleX(0);
-  z-index: 3;
 }
+*/
 .stats__media img {
   position: absolute;
   inset: 0;
@@ -1093,20 +1077,6 @@ ul {
   object-position: 50% 70%;
   transform-origin: 20% 60%;
   will-change: transform;
-}
-.stats__tint {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(20, 55, 100, 0.35),
-      rgba(20, 55, 100, 0.1) 40%,
-      rgba(10, 30, 60, 0.5)
-    ),
-    rgba(30, 84, 150, 0.2);
-  mix-blend-mode: multiply;
 }
 .stats__headline {
   position: absolute;
@@ -1118,7 +1088,6 @@ ul {
   font-size: clamp(38px, 3vw, 50px);
   line-height: 1.22;
   text-shadow: 0 1px 30px rgba(40, 30, 120, 0.15);
-  z-index: 3;
 }
 .stats__panel {
   position: absolute;
@@ -1427,19 +1396,37 @@ ul {
 }
 .footer__mid {
   display: grid;
-  grid-template-columns: auto 1fr minmax(0, 520px);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.4fr);
   align-items: start;
   column-gap: clamp(32px, 3.4vw, 50px);
 }
-.footer__hq {
-  font-size: 20px;
-  line-height: 1.4;
+.footer__brand .logo {
+  margin-bottom: 26px;
 }
-.footer__hq strong {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 14px;
-  font-size: 20px;
+.footer__hq {
+  font-size: 16px;
+  line-height: 1.45;
+}
+.footer__sep {
+  margin: 0 0.4em;
+}
+.footer__legal ul {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 230px;
+  font-family: var(--f-mono);
+  font-size: 13.5px;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+.footer__legal a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.footer__legal a:hover {
+  text-decoration-thickness: 2px;
 }
 .u-link {
   text-decoration: underline;
@@ -1585,21 +1572,25 @@ ul {
     height: 240px;
     clip-path: none;
   }
+  /* INDENT DISABLED
   .sourcing__notch svg {
     width: 46vw;
   }
+*/
   .sourcing__wire {
     width: 140vw;
     right: -40vw;
     top: 12%;
   }
 
+  /* INDENT DISABLED
   .stats__notch {
     display: none;
   }
-  .loader__facts {
+*/
+  /* .loader__facts {
     font-size: 13px;
-  }
+  } */
   .stats__panel {
     top: auto;
     left: 0;
@@ -1674,9 +1665,7 @@ ul {
     display: none;
   }
   .hero__ctas .btn {
-    --h: 48px;
-    padding: 0 12px;
-    font-size: 12.5px;
+    flex-basis: 100%; /* stack on phones so labels never clip */
   }
   .svc-card {
     --cw: calc(100vw - 2 * var(--gutter));

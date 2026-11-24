@@ -584,21 +584,23 @@
     const section = $("[data-sourcing]");
     revealLines($(".sourcing__title"));
 
-    // Tab cut-out eases open as the section arrives
-    gsap.fromTo(
-      "[data-notch]",
-      { scaleX: 0.55, scaleY: 0.2 },
-      {
-        scaleX: 1,
-        scaleY: 1,
-        ease: "none",
-        scrollTrigger: { trigger: section, start: "top bottom", end: "top 35%", scrub: true },
-      },
-    );
+    // Tab cut-out (indent) — disabled with its markup; runs again if the markup returns
     const notchSvg = $("[data-notch]");
-    notchFollow(section, ".sourcing__notch", "x", () =>
-      Math.max(0, Math.min(section.offsetWidth * 0.12, (section.offsetWidth - notchSvg.getBoundingClientRect().width) / 2 - 60)),
-    );
+    if (notchSvg) {
+      gsap.fromTo(
+        notchSvg,
+        { scaleX: 0.55, scaleY: 0.2 },
+        {
+          scaleX: 1,
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: { trigger: section, start: "top bottom", end: "top 35%", scrub: true },
+        },
+      );
+      notchFollow(section, ".sourcing__notch", "x", () =>
+        Math.max(0, Math.min(section.offsetWidth * 0.12, (section.offsetWidth - notchSvg.getBoundingClientRect().width) / 2 - 60)),
+      );
+    }
 
     gsap.fromTo(
       "[data-wire]",
@@ -796,7 +798,7 @@
         );
 
       // the tab grows out of the image edge as the squeeze settles
-      if (isDesktop) {
+      if (isDesktop && $("[data-stats-notch] svg")) {
         tl.fromTo("[data-stats-notch] svg", { scaleX: 0 }, { scaleX: 1, duration: 0.24, ease: "power2.out" }, 0.48);
       }
 
@@ -815,10 +817,13 @@
       tl.to({}, { duration: 0.12 });
     };
 
+    // indent disabled with its markup; runs again if the markup returns
     const notchSvg = $("[data-stats-notch] svg");
-    notchFollow(section, "[data-stats-notch]", "y", () =>
-      Math.max(0, ((section.offsetHeight - notchSvg.getBoundingClientRect().height) / 2 - 70) * 0.45),
-    );
+    if (notchSvg) {
+      notchFollow(section, "[data-stats-notch]", "y", () =>
+        Math.max(0, ((section.offsetHeight - notchSvg.getBoundingClientRect().height) / 2 - 70) * 0.45),
+      );
+    }
 
     gsap.matchMedia().add({ desktop: DESKTOP, mobile: MOBILE }, (ctx) => {
       build(ctx.conditions.desktop);
@@ -1144,7 +1149,18 @@
   // Hide intro elements before the loader lifts
   gsap.set(INTRO_HIDDEN, { autoAlpha: 0 });
 
-  runLoader(video).then(() => {
+  // The loader markup is commented out in index.html. Without it, start straight
+  // away: the video downloads in the background and the hero eases in.
+  const start = $(".loader")
+    ? runLoader(video)
+    : (() => {
+        loadVideo(video, () => {});
+        return (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+          gsap.fromTo(".hero__video", { scale: 1.25 }, { scale: 1.06, duration: 2.4, ease: "expo.out", clearProps: "transform" });
+        });
+      })();
+
+  start.then(() => {
     document.body.classList.remove("is-loading");
     gsap.set(INTRO_HIDDEN, {
       clearProps: "opacity,visibility",
